@@ -272,7 +272,9 @@ def display_recommendations(df: pd.DataFrame, algorithm: str):
         display_df['평점 수'] = df['rating_count'].astype(int)
 
     # Select columns to display
-    cols_to_show = ['영화 제목', '장르']
+    cols_to_show = ['영화 제목']
+    if '장르' in display_df.columns:
+        cols_to_show.append('장르')
     if score_col:
         cols_to_show.append('점수')
     if '평균 평점' in display_df.columns:
@@ -420,6 +422,8 @@ def main():
                                         if not similar.empty:
                                             st.markdown("**비슷한 영화:**")
                                             display_recommendations(similar, "유사도")
+                                        else:
+                                            st.warning("이 영화에 대한 유사도 데이터가 아직 계산되지 않았습니다. 인기 있는 영화들에 대해서만 유사도가 제공됩니다.")
                 else:
                     st.info("영화를 찾을 수 없습니다. 다른 검색어를 시도해보세요.")
 
