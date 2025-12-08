@@ -10,8 +10,7 @@ psycopg2-binary>=2.9.9
 sqlalchemy>=2.0.23
 
 # Machine Learning (Phase 2)
-scikit-learn==1.3.2
-scikit-surprise==1.1.3
+scikit-learn>=1.3.2
 scipy>=1.11.0
 
 # CLI & Utilities
