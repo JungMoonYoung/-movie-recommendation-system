@@ -318,10 +318,10 @@ def main():
             "인기순 추천",
             "장르별 추천",
             "유사성 추천",
-            # "머신러닝 추천",  # numpy 버전 호환성 문제로 임시 비활성화
-            # "종합 추천"
+            "머신러닝 추천",
+            "종합 추천"
         ],
-        index=2  # Default to CF
+        index=4  # Default to Hybrid
     )
 
     # Number of recommendations
