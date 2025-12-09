@@ -1,6 +1,6 @@
 # Core dependencies
 pandas>=2.2.0
-numpy>=1.26.0
+numpy>=1.26.0,<2.0.0  # numpy 2.x 호환성 문제로 1.x 고정
 
 # Environment
 python-dotenv==1.0.0
