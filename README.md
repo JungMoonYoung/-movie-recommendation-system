@@ -1,6 +1,6 @@
 # 🎬 Movie Recommendation System
 
-MovieLens 1M 영화 추천 시스템 - SQL & ML 기반 (Phase 1 & 2 완료 ✅)
+MovieLens 1M 영화 추천 시스템 - SQL & ML 기반
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-316192.svg)](https://www.postgresql.org/)
@@ -11,17 +11,16 @@ MovieLens 1M 영화 추천 시스템 - SQL & ML 기반 (Phase 1 & 2 완료 ✅)
 
 ## 📌 프로젝트 개요
 
-본 프로젝트는 **PostgreSQL, Python, Machine Learning**을 활용한 완전한 영화 추천 시스템입니다.
+본 프로젝트는 **PostgreSQL, Python, Machine Learning**을 활용한 영화 추천 시스템입니다.
 **5가지 추천 알고리즘**(Popularity, Genre, Item-CF, ML-SVD, Hybrid)을 구현하고,
 **Streamlit 웹 UI**로 사용자 친화적인 인터페이스를 제공합니다.
 
-### 🎯 프로젝트 목표
-- ✅ SQL 기반 추천 알고리즘 구현 (3종)
-- ✅ ML 기반 추천 알고리즘 구현 (SVD Matrix Factorization)
-- ✅ Hybrid 앙상블 추천 시스템
-- ✅ 실전 평가 지표로 성능 비교 (Hit Rate, Precision, Recall, RMSE)
-- ✅ 인터랙티브 웹 UI (Streamlit)
-- ✅ 프로덕션 레디 코드 (에러 처리, 캐싱, 테스트)
+## ✅ 현재 상태
+- **Phase 1 완료**: SQL 기반 추천 3종 + 평가 시스템 + CLI + 보안 강화
+- **Phase 2 완료**: ML 기반(SVD) + Hybrid 앙상블 + Streamlit 웹 UI
+- **고도화 진행 중**: 유사도 행렬 전체 계산 최적화, 최종 성능 벤치마크
+
+> **※ 500개 영화 제한**: 전체 3,883개 중 평점 30개 이상 영화만 사용하여 신뢰도를 확보하고, 유사도 계산 시간을 현실적 범위로 관리합니다.
 
 ---
 
@@ -33,12 +32,12 @@ MovieLens 1M 영화 추천 시스템 - SQL & ML 기반 (Phase 1 & 2 완료 ✅)
 - ✅ **인기 기반 추천** (Popularity-based)
   - IMDB Weighted Rating 공식 활용
   - Cold Start 문제 해결
-  - 가장 빠른 속도 (~50ms)
+  - 빠른 응답 속도
 
 - ✅ **장르 기반 추천** (Genre-based)
   - 사용자의 장르 선호도 분석 (Top 3 장르)
   - CTE 활용 복잡 SQL 쿼리
-  - 중간 개인화 수준 (~80ms)
+  - 중간 개인화 수준
 
 - ✅ **Item-based CF** (아이템 기반 협업 필터링)
   - Cosine Similarity 기반 영화 유사도
@@ -57,7 +56,7 @@ MovieLens 1M 영화 추천 시스템 - SQL & ML 기반 (Phase 1 & 2 완료 ✅)
 - ✅ Train/Test 분리 (시간 기반, 80/20)
 - ✅ 평가 지표: Hit Rate, Precision, Recall
 - ✅ 알고리즘 비교 분석
-- ✅ 단위 테스트 (58개 테스트)
+- ✅ 테스트: 총 71개 (단위/통합/기능 검증 포함), 모두 통과
 
 ### Phase 2: ML & Web UI (완료 ✅)
 
@@ -92,12 +91,12 @@ MovieLens 1M 영화 추천 시스템 - SQL & ML 기반 (Phase 1 & 2 완료 ✅)
 - ✅ 에러 처리 (모델 없음, DB 실패)
 - ✅ 반응형 디자인
 
-#### 7. **보안 및 코드 품질**
-- ✅ SQL Injection 취약점 수정 (파라미터 바인딩)
-- ✅ 포괄적인 에러 처리
-- ✅ 71개 단위 테스트 (all passing)
-- ✅ 상세한 로깅 및 문서화 (14개 Review 문서)
-- ✅ Type hints 및 Docstrings
+#### 7. **코드 품질 및 구조화**
+- ✅ 실무 품질을 목표로 한 구조화 (에러 처리, 로깅, 테스트)
+- ✅ SQL Injection 방지 (파라미터 바인딩)
+- ✅ 총 71개 테스트 (단위 58개 + 통합/기능 13개), 모두 통과
+- ✅ 재현 가능한 실행 및 평가 파이프라인
+- ✅ Type hints 및 상세한 문서화 (14개 Review 문서)
 
 ---
 
@@ -125,8 +124,8 @@ venv\Scripts\activate
 # 가상환경 활성화 (Mac/Linux)
 source venv/bin/activate
 
-# 패키지 설치
-pip install pandas numpy python-dotenv psycopg2-binary sqlalchemy pytest
+# 의존성 설치
+pip install -r requirements.txt
 ```
 
 ### 3. PostgreSQL 데이터베이스 생성
@@ -278,6 +277,8 @@ python src/evaluate_all_algorithms.py
 | **Popularity** | 0.260 (26.0%) | 0.047 (4.7%) | 0.029 (2.9%) | 308ms |
 | **Genre-based** | 0.216 (21.6%) | 0.033 (3.3%) | 0.027 (2.7%) | 568ms |
 
+> **※ 레이턴시 측정 조건**: 로컬 환경 (PostgreSQL 로컬, 캐시 미적용) 기준. 추천 결과 생성에 소요되는 시간 (쿼리 실행 + 후처리 포함)을 측정한 평균값입니다.
+
 ### 주요 인사이트
 
 1. **Item-based CF가 최고 성능**
@@ -364,7 +365,7 @@ pytest tests/test_similarity.py -v
 pytest tests/ --cov=src --cov-report=html
 ```
 
-**테스트 커버리지**: 58개 단위 테스트 ✅
+**테스트 구성**: 총 71개 (단위 테스트 58개 + 통합/기능 테스트 13개) ✅
 
 ---
 
@@ -401,7 +402,11 @@ pytest tests/ --cov=src --cov-report=html
 
 ### 1. 인기 기반 추천 (Popularity-based)
 
-**알고리즘**:
+**핵심 로직**: IMDB Weighted Rating 방식 활용 (평점 개수 × 평균 평점)
+
+<details>
+<summary><b>SQL 쿼리 보기</b></summary>
+
 ```sql
 SELECT
     m.movie_id,
@@ -416,29 +421,31 @@ HAVING COUNT(*) >= 30
 ORDER BY weighted_rating DESC
 LIMIT 10
 ```
+</details>
 
 **특징**:
-- Weighted Rating = 평점 개수 × 평균 평점
-- 최소 평점 기준 필터링 (30개 이상)
-- 이미 본 영화 제외 옵션
+- 최소 평점 기준 필터링 (신뢰도 확보)
+- Cold Start 문제 해결
+- 빠른 응답 속도
 
 ---
 
 ### 2. 장르 기반 추천 (Genre-based)
 
-**알고리즘 (4단계)**:
+**핵심 로직**: 사용자 선호 장르 분석 후 해당 장르 인기 영화 추천 (4단계 CTE)
+
+<details>
+<summary><b>SQL 쿼리 보기</b></summary>
+
 ```sql
 WITH user_genre_preference AS (
     -- 1. 사용자의 장르별 선호도 계산
-    SELECT
-        genre_id,
-        COUNT(*) * AVG(rating) as preference_score
+    SELECT genre_id, COUNT(*) * AVG(rating) as preference_score
     FROM ratings_train r
     INNER JOIN movie_genres mg ON r.movie_id = mg.movie_id
     WHERE user_id = :user_id
     GROUP BY genre_id
-    ORDER BY preference_score DESC
-    LIMIT 3  -- 상위 3개 장르
+    ORDER BY preference_score DESC LIMIT 3
 ),
 user_watched AS (
     -- 2. 이미 본 영화 제외
@@ -446,15 +453,12 @@ user_watched AS (
 ),
 genre_movies AS (
     -- 3. 선호 장르의 영화들
-    SELECT DISTINCT movie_id
-    FROM movie_genres
+    SELECT DISTINCT movie_id FROM movie_genres
     WHERE genre_id IN (SELECT genre_id FROM user_genre_preference)
 ),
 movie_stats AS (
     -- 4. 영화별 통계 및 점수
-    SELECT
-        m.movie_id,
-        COUNT(*) * AVG(r.rating) as combined_score
+    SELECT m.movie_id, COUNT(*) * AVG(r.rating) as combined_score
     FROM movies m
     INNER JOIN ratings_train r ON m.movie_id = r.movie_id
     WHERE m.movie_id IN (SELECT movie_id FROM genre_movies)
@@ -464,19 +468,22 @@ movie_stats AS (
 )
 SELECT * FROM movie_stats ORDER BY combined_score DESC LIMIT 10
 ```
+</details>
 
 **특징**:
-- 장르별 선호도 = 평점 개수 × 평균 평점
-- 상위 K개 장르 선택 (기본 3개)
+- 상위 3개 장르 선택
 - Combined Score로 최종 정렬
+- 중간 수준의 개인화
 
 ---
 
 ### 3. Item-based CF (아이템 기반 협업 필터링)
 
-**알고리즘 (2단계)**:
+**핵심 로직**: Cosine Similarity로 영화 유사도 계산 후 가중 평균 점수 산출
 
-#### 단계 1: 유사도 계산 (사전 계산)
+<details>
+<summary><b>SQL 쿼리 보기 (유사도 계산)</b></summary>
+
 ```sql
 -- Cosine Similarity 계산
 WITH movie_pairs AS (
@@ -485,37 +492,33 @@ WITH movie_pairs AS (
     WHERE m1.movie_id < m2.movie_id
 ),
 pair_similarities AS (
-    SELECT
-        mp.movie_id_1,
-        mp.movie_id_2,
-        COUNT(r1.user_id) as common_users,
-        SUM(r1.rating * r2.rating) as dot_product,
-        SQRT(SUM(r1.rating * r1.rating)) as magnitude_1,
-        SQRT(SUM(r2.rating * r2.rating)) as magnitude_2
+    SELECT mp.movie_id_1, mp.movie_id_2,
+           COUNT(r1.user_id) as common_users,
+           SUM(r1.rating * r2.rating) as dot_product,
+           SQRT(SUM(r1.rating * r1.rating)) as magnitude_1,
+           SQRT(SUM(r2.rating * r2.rating)) as magnitude_2
     FROM movie_pairs mp
     INNER JOIN ratings_train r1 ON r1.movie_id = mp.movie_id_1
     INNER JOIN ratings_train r2
         ON r2.movie_id = mp.movie_id_2 AND r2.user_id = r1.user_id
     GROUP BY mp.movie_id_1, mp.movie_id_2
-    HAVING COUNT(r1.user_id) >= 20  -- 최소 공통 사용자 수
+    HAVING COUNT(r1.user_id) >= 20
 )
-SELECT
-    movie_id_1,
-    movie_id_2,
-    common_users,
-    dot_product / (magnitude_1 * magnitude_2) as similarity_score
+SELECT movie_id_1, movie_id_2,
+       dot_product / (magnitude_1 * magnitude_2) as similarity_score
 FROM pair_similarities
 ```
+</details>
 
-#### 단계 2: 추천 생성
+<details>
+<summary><b>SQL 쿼리 보기 (추천 생성)</b></summary>
+
 ```sql
 WITH user_liked_movies AS (
-    -- 1. 사용자가 좋아한 영화 (rating >= 4.0)
     SELECT movie_id, rating FROM ratings_train
     WHERE user_id = :user_id AND rating >= 4.0
 ),
 similar_candidates AS (
-    -- 2. 좋아한 영화와 유사한 영화 찾기
     SELECT
         CASE WHEN ms.movie_id_1 IN (SELECT movie_id FROM user_liked_movies)
              THEN ms.movie_id_2 ELSE ms.movie_id_1
@@ -527,20 +530,18 @@ similar_candidates AS (
         ON (ms.movie_id_1 = ulm.movie_id OR ms.movie_id_2 = ulm.movie_id)
     WHERE recommended_movie_id NOT IN (SELECT movie_id FROM ratings_train WHERE user_id = :user_id)
 )
-SELECT
-    recommended_movie_id,
-    SUM(similarity_score * (user_rating / 5.0)) as recommendation_score
+SELECT recommended_movie_id,
+       SUM(similarity_score * (user_rating / 5.0)) as recommendation_score
 FROM similar_candidates
 GROUP BY recommended_movie_id
-ORDER BY recommendation_score DESC
-LIMIT 10
+ORDER BY recommendation_score DESC LIMIT 10
 ```
+</details>
 
 **특징**:
-- Cosine Similarity로 영화 간 유사도 측정
 - 가중 평균 점수: Σ(유사도 × 사용자 평점 / 5.0)
-- 이미 본 영화 자동 제외
 - 설명 가능성: "X를 좋아하셔서 추천합니다"
+- 최고 정확도 (Hit Rate@10: 35.2%)
 
 ---
 
@@ -565,6 +566,9 @@ result = pd.read_sql(query, conn, params={'movie_id': movie_id})
 ---
 
 ## 📚 학습 내용 및 교훈
+
+<details>
+<summary><b>주요 학습 내용 보기</b></summary>
 
 ### 1. **SQL 기반 추천 시스템의 장단점**
 
@@ -594,9 +598,11 @@ result = pd.read_sql(query, conn, params={'movie_id': movie_id})
 
 ### 4. **테스트 주도 개발**
 
-- 58개 단위 테스트로 동작 보장
+- 71개 테스트 (단위 58개 + 통합/기능 13개)로 동작 보장
 - 리팩토링 시 안전성 확보
 - 개인화 검증 테스트가 핵심
+
+</details>
 
 ---
 
@@ -651,37 +657,18 @@ CREATE INDEX idx_similarities_score ON movie_similarities(similarity_score DESC)
 
 ### 3. 배치 처리
 - 유사도 계산: 페어별(1,225회 연결) → 배치(1회 연결)
-- 성능 개선: 10-20분 → 0.6초 (1,000-2,000배 빠름)
+- 성능 개선: 10-20분 → 0.6초 수준 (50개 영화 샘플 기준, 로컬 환경)
+
+> **※ 측정 조건**: 500개 영화 전체가 아닌 50개 영화 샘플 기준, 사전 계산 및 배치 처리 적용 시 성능입니다.
 
 ---
 
-## 🚧 알려진 이슈 및 향후 개선 사항
+## 🚧 현재 제한사항
 
-### 현재 이슈
-1. ⚠️ 유사도 계산 시간 소요 (500개 영화 대상 시 10-30분)
+1. ⚠️ 유사도 전체 계산 시간 (500개 영화 대상 시 10-30분)
+   - **500개 제한 이유**: 전체 3,883개 중 평점 30개 이상 영화만 사용 (신뢰도 확보 + 계산 시간 관리)
 2. ⚠️ Item-CF의 Cold Start 문제 (신규 영화/사용자)
-3. ⚠️ Genre-based의 낮은 성능 (Popularity보다 못함)
-
-### 개선 계획 (Phase 2)
-1. **ML 기반 추천** (Day 11)
-   - Matrix Factorization (SVD)
-   - 더 높은 정확도 기대
-   - scikit-surprise 라이브러리
-
-2. **하이브리드 추천** (Day 12)
-   - 가중치 기반 결합
-   - Popularity (0.1) + Genre (0.3) + Item-CF (0.6)
-   - 각 알고리즘의 장점 활용
-
-3. **Streamlit 웹 UI** (Day 13)
-   - 인터랙티브 인터페이스
-   - 알고리즘 비교 시각화
-   - 사용자 친화적 UX
-
-4. **추가 기능** (Day 14)
-   - TMDB API 연동 (포스터, 줄거리)
-   - Demographic 필터링
-   - 추천 다양성 규칙
+3. ⚠️ 실시간 업데이트 미지원 (배치 처리 방식)
 
 ---
 
@@ -714,13 +701,20 @@ CREATE INDEX idx_similarities_score ON movie_similarities(similarity_score DESC)
 
 ## 📝 변경 이력
 
+### v1.1.0 (Phase 2 완료) - 2025-12-06
+- ✅ ML 기반 추천 (SVD Matrix Factorization)
+- ✅ Hybrid 앙상블 추천 시스템
+- ✅ Streamlit 웹 UI 구현
+- ✅ 성능 최적화 (Single-pass 알고리즘, 캐싱)
+- ✅ 통합 테스트 추가 (총 71개 테스트)
+
 ### v1.0.0 (Phase 1 완료) - 2025-12-05
 - ✅ 3개 추천 알고리즘 구현 (Popularity, Genre, Item-CF)
 - ✅ CLI 인터페이스 구현
 - ✅ 평가 시스템 구축 (Hit Rate, Precision, Recall)
-- ✅ 58개 단위 테스트 작성
+- ✅ 단위 테스트 58개 작성
 - ✅ SQL Injection 보안 취약점 수정
-- ✅ 상세한 문서화 (5개 리뷰 문서)
+- ✅ 상세한 문서화 (14개 리뷰 문서)
 
 ---
 
@@ -745,7 +739,3 @@ MIT License - 자유롭게 사용 및 수정 가능
 ---
 
 **Made with ❤️ for learning and portfolio purposes**
-
-**Phase 1 완료율: 90%** ✅
-
-남은 작업: 유사도 데이터 계산 (50개 → 500개 영화), 실제 평가 실행
